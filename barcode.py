@@ -2,7 +2,6 @@ from PIL import Image
 import numpy as np
 import os
 
-
 class barcodeGenerator:
     def __init__(self, imgarray):
         self.imgarray = imgarray
@@ -91,7 +90,6 @@ if __name__ == "__main__":
         
 
     print(barcodeList)
-
     
     #print(imgarray)
 
