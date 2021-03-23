@@ -66,6 +66,26 @@ class barcodeGenerator:
         newBarcode = self.th1()+self.th2()+self.th3()+self.th4()
         return newBarcode
 
+
+class searchAlgorithm:
+
+    def __init__(self,userInput,fileandBarcode):
+        self.userInput=userInput
+        self.fileandBarcode = fileandBarcode
+    
+    def search(self):
+        filelocation = ""
+
+        for i in range(len(fileandBarcode)):
+            if str(fileandBarcode[i][1]).replace(",", "").replace(" ", "").replace("[", "").replace("]", "") == userInput:
+                filelocation = fileandBarcode[i][0]
+        return filelocation
+
+    
+
+
+
+
 if __name__ == "__main__":
 
     filepathList = []
@@ -85,10 +105,18 @@ if __name__ == "__main__":
         imgarray = np.asarray(image)
         barcode = barcodeGenerator(image)
         barcodeList.append(barcode.concatenate())
-        
-
-    print(barcodeList)
     
+    fileandBarcode = list(zip(filepathList,barcodeList))
+    
+    print(fileandBarcode)
+    
+    userInput = input("Enter a barcode: ")
+    userInput = userInput.replace(" ","").replace(",","")
+    print(userInput)
+    
+    searching = searchAlgorithm(userInput,fileandBarcode)
+    print(searching.search())
+    #print(fileandBarcode[0][1])
     #print(imgarray)
 
 
