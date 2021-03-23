@@ -66,8 +66,6 @@ class barcodeGenerator:
         newBarcode = self.th1()+self.th2()+self.th3()+self.th4()
         return newBarcode
 
-
-
 if __name__ == "__main__":
 
     filepathList = []
