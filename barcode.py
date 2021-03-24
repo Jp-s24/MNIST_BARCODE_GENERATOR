@@ -83,23 +83,33 @@ class searchAlgorithm:
                 hd += 1
         return hd
 
+    def accuracy(self,sortArray):
+        filename = str(sortArray[0][1])
+        numComp = int(filename[24])
+        counter = 0
+        for i in range(10):
+            tempName = str(sortArray[i][1])
+            temp = int(tempName[24])
+            if numComp == temp:
+                counter+=1
+
+        return (counter-1)/9
+
+
     def search(self):
         filelocation = ""
         for i in range(len(fileandBarcode)):
-            # if str(fileandBarcode[i][1]).replace(",", "").replace(" ", "").replace("[", "").replace("]", "") == userInput:
+            
             filelocation = fileandBarcode[i][0]
             hd = self.ham(userInput, str(fileandBarcode[i][1]).replace(
                 ",", "").replace(" ", "").replace("[", "").replace("]", ""))
             self.sharyarWithHam.append((hd, filelocation))
-            # print(type(fileandBarcode[i][1]))
+            
 
         sortedSharyarWithHam = sorted(self.sharyarWithHam)
         for i in range(10):
             print(sortedSharyarWithHam[i])
-        # print(sortedSharyarWithHam)
-        # print(sortedSharyarWithHam[1][1])
-        # return filelocation
-
+        print(self.accuracy(sortedSharyarWithHam))
 
 if __name__ == "__main__":
 
@@ -126,10 +136,9 @@ if __name__ == "__main__":
 
     userInput = input("Enter a barcode: ")
     userInput = userInput.replace(" ", "").replace(",", "")
-    print(userInput)
 
     searching = searchAlgorithm(userInput, fileandBarcode)
-    # print(searching.ham("00100", "11011"))
+    
     searching.search()
 
 
