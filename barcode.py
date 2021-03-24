@@ -72,20 +72,28 @@ class searchAlgorithm:
     def __init__(self,userInput,fileandBarcode):
         self.userInput=userInput
         self.fileandBarcode = fileandBarcode
-    
+        
+    def ham(self, x, y):
+
+        hd = 0
+        for i in range(len(x)):
+            digit1, digit2 = int(x[i]), int(y[i])
+            if digit1 != digit2:
+                hd += 1
+        return hd
+   
     def search(self):
         filelocation = ""
-
+                
         for i in range(len(fileandBarcode)):
             if str(fileandBarcode[i][1]).replace(",", "").replace(" ", "").replace("[", "").replace("]", "") == userInput:
                 filelocation = fileandBarcode[i][0]
+                print(self.ham(userInput, str(fileandBarcode[i][1]).replace(",", "").replace(" ", "").replace("[", "").replace("]", ""))
+                
         return filelocation
 
+
     
-
-
-
-
 if __name__ == "__main__":
 
     filepathList = []
@@ -116,6 +124,7 @@ if __name__ == "__main__":
     
     searching = searchAlgorithm(userInput,fileandBarcode)
     print(searching.search())
+    #print(searching.ham())
     #print(fileandBarcode[0][1])
     #print(imgarray)
 
