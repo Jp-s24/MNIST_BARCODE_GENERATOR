@@ -91,12 +91,23 @@ class searchAlgorithm:
                 hd += 1
         return hd
 
-    #Calculates accuracy of top nine closest images from Hamming distance
+    #Calculates total accuracy, uses only closest match
     def accuracy(self,sortArray):
         filename = str(sortArray[0][1])
         numComp = int(filename[24])
         counter = 0
-        """
+        tempName = str(sortArray[1][1])
+        temp = int(tempName[24])
+        if numComp == temp:
+            counter += 1
+        return counter
+
+    #Calculates accuracy of top nine closest images from Hamming distance
+    def indvlAccuracy(self,sortArray):
+        filename = str(sortArray[0][1])
+        numComp = int(filename[24])
+        counter = 0
+        
         for i in range(10):
             tempName = str(sortArray[i][1])
             temp = int(tempName[24])
@@ -104,12 +115,7 @@ class searchAlgorithm:
                 counter+=1
 
         return (counter-1)/9
-        """
-        tempName = str(sortArray[1][1])
-        temp = int(tempName[24])
-        if numComp == temp:
-            counter += 1
-        return counter
+        
     #Comparing searched image with all other images in database
     def search(self):
         filelocation = ""
@@ -121,10 +127,11 @@ class searchAlgorithm:
             self.fileLocationHam.append((hd, filelocation))
             
         sortedfileLocationHam = sorted(self.fileLocationHam)
-        print("\nHamming distance and file location")
+        print("\nHamming distance and file location for 9 similar images")
         for i in range(10):
             print(sortedfileLocationHam[i])
-        
+        print("The hit accuracy for your search was: ",
+        "{:.0%}".format(self.indvlAccuracy(sortedfileLocationHam)))
         return self.accuracy(sortedfileLocationHam)
 
 if __name__ == "__main__":
@@ -155,23 +162,24 @@ if __name__ == "__main__":
     with open('filesandbarcode.csv','w') as result:
         w = csv.writer(result,dialect='excel')
         w.writerows(fileandBarcode)  
-    """
+    
     #Getting user's barcode
+    """
     userInput = input("Enter a barcode: ")
     userInput = userInput.replace(" ", "").replace(
         ",", "").replace("[", "").replace("]", "").replace('"','')
 
     #Performing comparison
     searching = searchAlgorithm(userInput, fileandBarcode)
+    print(searching.search())
     
-    print("The hit accuracy for the closest 9 results was: ",
-        "{:.0%}".format(searching.search()))
     """
+    totalaccuracy = 0
     for i in range(len(barcodeList)):
         userInput = barcodeList[i]
         searching = searchAlgorithm(userInput, fileandBarcode)
-
-        print("Hit/miss ",
-              searching.search())
-
+        if searching.search()==1:
+            totalaccuracy+=1
+    print("Total accuracy of algorithm: ", "{:.0%}".format(totalaccuracy/100))
+   
 
