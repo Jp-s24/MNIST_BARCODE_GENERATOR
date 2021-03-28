@@ -96,6 +96,7 @@ class searchAlgorithm:
         filename = str(sortArray[0][1])
         numComp = int(filename[24])
         counter = 0
+        """
         for i in range(10):
             tempName = str(sortArray[i][1])
             temp = int(tempName[24])
@@ -103,7 +104,12 @@ class searchAlgorithm:
                 counter+=1
 
         return (counter-1)/9
-
+        """
+        tempName = str(sortArray[1][1])
+        temp = int(tempName[24])
+        if numComp == temp:
+            counter += 1
+        return counter
     #Comparing searched image with all other images in database
     def search(self):
         filelocation = ""
@@ -114,11 +120,11 @@ class searchAlgorithm:
                 ",", "").replace(" ", "").replace("[", "").replace("]", ""))
             self.fileLocationHam.append((hd, filelocation))
             
-
         sortedfileLocationHam = sorted(self.fileLocationHam)
         print("\nHamming distance and file location")
         for i in range(10):
             print(sortedfileLocationHam[i])
+        
         return self.accuracy(sortedfileLocationHam)
 
 if __name__ == "__main__":
@@ -149,7 +155,7 @@ if __name__ == "__main__":
     with open('filesandbarcode.csv','w') as result:
         w = csv.writer(result,dialect='excel')
         w.writerows(fileandBarcode)  
-
+    """
     #Getting user's barcode
     userInput = input("Enter a barcode: ")
     userInput = userInput.replace(" ", "").replace(
@@ -160,7 +166,12 @@ if __name__ == "__main__":
     
     print("The hit accuracy for the closest 9 results was: ",
         "{:.0%}".format(searching.search()))
-    
-    
+    """
+    for i in range(len(barcodeList)):
+        userInput = barcodeList[i]
+        searching = searchAlgorithm(userInput, fileandBarcode)
+
+        print("Hit/miss ",
+              searching.search())
 
 
